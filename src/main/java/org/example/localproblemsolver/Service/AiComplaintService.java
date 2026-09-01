@@ -9,6 +9,7 @@ import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Schema;
 import com.google.genai.types.Type;
 
+import org.example.localproblemsolver.dto.AiApiResponse;
 import org.example.localproblemsolver.dto.ComplaintResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class AiComplaintService {
         this.objectMapper = objectMapper;
 
     }
-    public ComplaintResponse analyzeComplaint(String complaint) {
+    public AiApiResponse analyzeComplaint(String complaint) {
         try {
 
             String prompt = """
@@ -45,6 +46,7 @@ public class AiComplaintService {
                     2. location
                     3. department
                     4. severity(LOW | MEDIUM | HIGH | CRITICAL)
+                    5. isValid (tell true or false whether the problem is valid or not)
                     
                     The department MUST be exactly one of these values: 
                     WATER 
@@ -87,6 +89,10 @@ public class AiComplaintService {
                     Schema.builder()
                             .type(Type.Known.STRING)
                             .build());
+            properties.put("isValid",
+                    Schema.builder()
+                            .type(Type.Known.BOOLEAN)
+                            .build());
 
             Schema responseSchema = Schema.builder()
                     .type(Type.Known.OBJECT)
@@ -108,20 +114,21 @@ public class AiComplaintService {
 
             String json = response.text();
 
-            // Convert JSON → ComplaintAnalysisDTO
+
             return convertJsonToDTO(json);
         } catch (Exception e) {
             throw new RuntimeException( "Failed to analyze complaint", e );
         }
     }
-    private ComplaintResponse convertJsonToDTO(String json) {
+    private AiApiResponse convertJsonToDTO(String json) {
 
 
         try {
 
             return objectMapper.readValue(
                     json,
-                    ComplaintResponse.class
+                    AiApiResponse.class
+
             );
 
         } catch (JsonProcessingException e) {

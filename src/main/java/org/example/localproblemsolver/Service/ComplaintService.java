@@ -44,40 +44,7 @@ public class ComplaintService {
         this.currentUserService = currentUserService;
         this.complaintMapper = complaintMapper;
     }
-    public ComplaintResponse register(RegisterComplaintDTO registerComplaintDTO){
 
-        {
-            //checkforValidation()
-
-            ComplaintResponse analysis =
-                    aiComplaintService.analyzeComplaint(
-                            registerComplaintDTO.getProblem()
-                    );
-
-            return analysis;
-
-        }
-
-
-
-    }
-    public Complaint2Dto getComplaint(Long id){
-        Optional<Complaint2> complaint2 = complaint2Repository.findById(id);
-        Complaint2 res = complaint2.get();
-
-        Complaint2Dto complaint2Dto = new
-                Complaint2Dto();
-        complaint2Dto.setCategory(res.getCategory());
-        complaint2Dto.setId(res.getId());
-        complaint2Dto.setDate(res.getDate());
-        complaint2Dto.setDepartment(res.getDepartment());
-        complaint2Dto.setDescription(res.getDescription());
-        complaint2Dto.setLocation(res.getLocation());
-        complaint2Dto.setPriority(res.getPriority());
-        complaint2Dto.setTitle(res.getTitle());
-
-        return complaint2Dto;
-    }
 
         @Transactional
         public ComplaintResponse createComplaint(
@@ -88,13 +55,14 @@ public class ComplaintService {
             User user = currentUserService.getCurrentUser();
 
             // 2. Analyze complaint using AI
-            ComplaintResponse aiResponse =
-                    aiComplaintService.analyzeComplaint(
-                            request.getProblem()
-                    );
+            AiApiResponse aiApiResponse = aiComplaintService.analyzeComplaint(
+                    request.getProblem()
+            );
+
+
 
             // 3. Reject invalid complaint
-            if (!aiResponse.isValid()) {
+            if (!aiApiResponse.isValid()) {
                 throw new IllegalArgumentException(
                         "The submitted complaint is not valid"
                 );
@@ -104,20 +72,20 @@ public class ComplaintService {
             Department department =
                     departmentRepository
                             .findByNameIgnoreCase(
-                                    aiResponse.getDepartment()
+                                    aiApiResponse.getDepartment()
                             )
                             .orElseThrow(() ->
                                     new IllegalArgumentException(
                                             "Department not found: "
-                                                    + aiResponse.getDepartment()
+                                                    + aiApiResponse.getDepartment()
                                     )
                             );
 
             // 5. Create incident
             Incident incident = new Incident(
-                    aiResponse.getDescription(),
+                    aiApiResponse.getProblem(),
                     request.getProblem(),
-                    aiResponse.getSeverity(),
+                    aiApiResponse.getSeverity(),
                     IncidentStatus.REPORTED,
                     department
             );
@@ -133,7 +101,7 @@ public class ComplaintService {
                     request.getProblem()
             );
 
-            // 8. Save complaint
+
 
 
 

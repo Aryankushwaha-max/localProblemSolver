@@ -4,12 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.example.localproblemsolver.entity.Severity;
 
 import java.time.LocalDateTime;
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class ComplaintResponse {
-   // this will hold the data in the json foramt which will be convert to entity
-    // so that we can save it in our data base
-    // below i have few field so later add all the field present
-    // in incident , department, complaint
+
 
 
     private Long complaintId;
@@ -18,15 +15,11 @@ public class ComplaintResponse {
     private LocalDateTime createdAt;
     private String department;
 
-    public boolean isValid() {
-        return isValid;
-    }
 
-    public void setValid(boolean valid) {
-        isValid = valid;
-    }
 
-    private boolean isValid = true;
+
+
+
 
     public Severity getSeverity() {
         return severity;
