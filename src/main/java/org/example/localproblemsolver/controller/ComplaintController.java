@@ -33,16 +33,18 @@ public class ComplaintController {
                     );
         }
 
-//    @GetMapping("/getComplaint2/{id}")
-//    public ResponseEntity<Complaint2Dto> register(
-//            @Valid @PathVariable Long id
-//    ) {
-//
-//       Complaint2Dto complaint2Dto = complaintService.getComplaint(id);
-//       return ResponseEntity.ok(complaint2Dto);
-//
-//
-//    }
+    @GetMapping("/my/{id}")
+    public ResponseEntity<Complaint2Dto> register(
+            @Valid @PathVariable Long id
+    ) {
+
+
+        return ResponseEntity.ok(
+                complaintService.getMyComplaint(id)
+        );
+
+
+    }
 
     @GetMapping("/my")
     public ResponseEntity<List<ComplaintResponse>> getMyComplaints() {

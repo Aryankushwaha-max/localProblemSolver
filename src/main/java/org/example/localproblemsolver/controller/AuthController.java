@@ -4,10 +4,7 @@ package org.example.localproblemsolver.controller;
 import jakarta.validation.Valid;
 
 import org.example.localproblemsolver.Service.AuthService;
-import org.example.localproblemsolver.dto.ApiResponse;
-import org.example.localproblemsolver.dto.LoginRequest;
-import org.example.localproblemsolver.dto.LoginResponse;
-import org.example.localproblemsolver.dto.RegisterRequest;
+import org.example.localproblemsolver.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,18 +21,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse> register(
+    public ResponseEntity<RegisterResponse> register(
             @Valid @RequestBody RegisterRequest request
     ) {
 
-        authService.register(request);
+         RegisterResponse registerResponse = authService.register(request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ApiResponse(
-                        true,
-                        "User registered successfully"
-                ));
+                .body(registerResponse
+                );
     }
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(

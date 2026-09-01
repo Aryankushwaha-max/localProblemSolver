@@ -1,25 +1,48 @@
 package org.example.localproblemsolver.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.example.localproblemsolver.entity.Severity;
+
+import java.time.LocalDateTime;
+
 public class Complaint2Dto {
-    private long id;
-    private String title;
+
+
+
+    private Long complaintId;
+    private Long incidentId;
     private String description;
-    private String category;
+    private LocalDateTime createdAt;
+    private String department;
 
-    public long getId() {
-        return id;
+
+
+
+
+
+
+    public Severity getSeverity() {
+        return severity;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
     }
 
-    public String getTitle() {
-        return title;
+    public Long getComplaintId() {
+        return complaintId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setComplaintId(Long complaintId) {
+        this.complaintId = complaintId;
+    }
+
+    public Long getIncidentId() {
+        return incidentId;
+    }
+
+    public void setIncidentId(Long incidentId) {
+        this.incidentId = incidentId;
     }
 
     public String getDescription() {
@@ -30,12 +53,12 @@ public class Complaint2Dto {
         this.description = description;
     }
 
-    public String getCategory() {
-        return category;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getDepartment() {
@@ -46,6 +69,21 @@ public class Complaint2Dto {
         this.department = department;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private Severity severity;
+    private String status;
+
+    public Complaint2Dto() {
+
+    }
+
     public String getLocation() {
         return location;
     }
@@ -54,25 +92,22 @@ public class Complaint2Dto {
         this.location = location;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
-
-    private String department;
     private String location;
-    private String date;
-    private String priority;
+    public Complaint2Dto( Long complaintId,
+                              Long incidentId,
+                              String description,
+                              LocalDateTime createdAt,
+                              String department,
+                              Severity severity,
+                              String status
+    ) {
+        this.complaintId = complaintId;
+        this.incidentId = incidentId;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.department = department;
+        this.severity = severity;
+        this.status = status;
 
+    }
 }

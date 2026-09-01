@@ -108,7 +108,7 @@ public class ComplaintService {
             Complaint savedComplaint =
                     complaintRepository.save(complaint);
 
-            return complaintMapper.toResponse(savedComplaint);
+            return complaintMapper.toResponses(savedComplaint);
 
 
 
@@ -125,8 +125,25 @@ public class ComplaintService {
         return complaintRepository
                 .findByUserId(user.getId())
                 .stream()
-                .map(complaintMapper::toResponse)
+                .map(complaintMapper::toResponses)
                 .toList();
+
+
+    }
+    @Transactional(readOnly = true)
+    public Complaint2Dto getMyComplaint(long id) {
+        User user = currentUserService.getCurrentUser();
+
+        return
+
+                complaintMapper.toResponse( complaintRepository.findByUser_IdAndId(user.getId(), id)
+
+                        .orElseThrow(() ->
+                                new RuntimeException("Complaint not found")
+                        )
+                );
+
+
 
 
     }

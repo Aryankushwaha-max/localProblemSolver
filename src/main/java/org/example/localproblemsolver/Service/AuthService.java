@@ -2,6 +2,7 @@ package org.example.localproblemsolver.Service;
 
 
 
+import org.example.localproblemsolver.dto.RegisterResponse;
 import org.example.localproblemsolver.execption.InvalidCredentialsException;
 import org.example.localproblemsolver.dto.LoginRequest;
 import org.example.localproblemsolver.dto.LoginResponse;
@@ -31,7 +32,7 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public User register(RegisterRequest request) {
+    public RegisterResponse register(RegisterRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new DuplicateEmailException("Email is already registered");
@@ -47,7 +48,9 @@ public class AuthService {
                 UserRole.USER
         );
 
-        return userRepository.save(user);
+        userRepository.save(user);
+        String token = jwtService.generateToken(request.getEmail());
+        return new RegisterResponse(request.getName() , token , true);
     }
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
