@@ -24,6 +24,18 @@ public class GlobalExceptionHandler {
                         exception.getMessage()
                 ));
     }
+    @ExceptionHandler(NotAuthorizeException.class)
+    public ResponseEntity<ApiResponse> handleUnauthorizeException(
+            NotAuthorizeException exception
+    ) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ApiResponse(
+                        false,
+                        exception.getMessage()
+                ));
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse> handleValidationError(

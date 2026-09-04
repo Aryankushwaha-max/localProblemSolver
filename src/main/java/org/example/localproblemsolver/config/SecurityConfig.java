@@ -24,19 +24,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //
-//        http
-//                .cors(cors -> {})
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/**").permitAll()
-//                        .anyRequest().permitAll()
-//                );
-//
-//        return http.build();
-//    }
 
 
 
@@ -62,16 +50,14 @@ public class SecurityConfig {
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers(
                                     "/api/auth/register",
-                                    "/api/auth/login"
+                                    "/api/auth/login" , "/api/admin/login"
                             ).permitAll()
 
 
                                             // USER, DEPARTMENT_ADMIN and SUPER_ADMIN
                                             .requestMatchers("/api/test/user").hasRole("USER")
 
-                                            // DEPARTMENT_ADMIN and SUPER_ADMIN
-                                            .requestMatchers("/api/test/department-admin")
-                                            .hasAnyRole("DEPARTMENT_ADMIN", "SUPER_ADMIN")
+
 
                                             // SUPER_ADMIN only
                                             .requestMatchers("/api/test/super-admin")

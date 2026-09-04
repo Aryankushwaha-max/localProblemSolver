@@ -1,8 +1,5 @@
 package org.example.localproblemsolver.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletOutputStream;
 import org.example.localproblemsolver.dto.*;
 import org.example.localproblemsolver.entity.*;
 import org.example.localproblemsolver.repository.Complaint2Repository;
@@ -13,12 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
-public class ComplaintService {
+public class UserComplaintService {
     private final  ComplaintRepository complaintRepository;
     private final CurrentUserService currentUserService;
     private final IncidentRepository incidentRepository;
@@ -28,13 +22,13 @@ public class ComplaintService {
 
     private final ComplaintMapper complaintMapper;
 
-    public ComplaintService(ComplaintRepository complaintRepository,
-                            IncidentRepository incidentRepository,
-                            DepartmentRepository departmentRepository,
-                            AiComplaintService aiComplaintService,
-                            Complaint2Repository complaint2Repository,
-                            CurrentUserService currentUserService,
-                            ComplaintMapper complaintMapper
+    public UserComplaintService(ComplaintRepository complaintRepository,
+                                IncidentRepository incidentRepository,
+                                DepartmentRepository departmentRepository,
+                                AiComplaintService aiComplaintService,
+                                Complaint2Repository complaint2Repository,
+                                CurrentUserService currentUserService,
+                                ComplaintMapper complaintMapper
                             ){
         this.complaintRepository = complaintRepository;
         this.departmentRepository = departmentRepository;

@@ -3,7 +3,7 @@ package org.example.localproblemsolver.controller;
 
 import jakarta.validation.Valid;
 
-import org.example.localproblemsolver.Service.AuthService;
+import org.example.localproblemsolver.Service.UserAuthService;
 import org.example.localproblemsolver.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin("*")
-public class AuthController {
+public class UserAuthController {
 
-    private final AuthService authService;
+    private final UserAuthService userAuthService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public UserAuthController(UserAuthService userAuthService) {
+        this.userAuthService = userAuthService;
     }
 
     @PostMapping("/register")
@@ -25,7 +25,8 @@ public class AuthController {
             @Valid @RequestBody RegisterRequest request
     ) {
 
-         RegisterResponse registerResponse = authService.register(request);
+         RegisterResponse registerResponse = userAuthService.register(request);
+
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -36,7 +37,7 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(
             @Valid @RequestBody LoginRequest request ) {
 
-        LoginResponse response = authService.login(request);
+        LoginResponse response = userAuthService.login(request);
         return ResponseEntity.ok(response);
     }
     @PostMapping("/test")

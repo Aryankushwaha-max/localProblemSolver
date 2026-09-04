@@ -15,13 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthService {
+public class UserAuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public AuthService(
+    public UserAuthService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
             JwtService jwtService
@@ -49,7 +49,7 @@ public class AuthService {
         );
 
         userRepository.save(user);
-        String token = jwtService.generateToken(request.getEmail());
+        String token = jwtService.generateUserToken(request.getEmail());
         return new RegisterResponse(request.getName() , token , true);
     }
     public LoginResponse login(LoginRequest request) {
@@ -59,7 +59,7 @@ public class AuthService {
         if (!passwordMatches) {
             throw new InvalidCredentialsException("Invalid email or password");
         }
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateUserToken(user.getEmail());
         return new LoginResponse( true, "Login successful", token );
     }
 }

@@ -2,6 +2,7 @@ package org.example.localproblemsolver.Service;
 
 
 
+import org.example.localproblemsolver.dto.AdminComplaintResponse;
 import org.example.localproblemsolver.dto.Complaint2Dto;
 import org.example.localproblemsolver.dto.ComplaintResponse;
 import org.example.localproblemsolver.entity.Complaint;
@@ -31,6 +32,20 @@ public class ComplaintMapper {
                 incident.getDepartment().getName(),
                 incident.getSeverity(),
                 incident.getStatus().name() );
+
+    }
+    public AdminComplaintResponse toAdminResponse(Incident incident) {
+
+        return new AdminComplaintResponse(
+
+                incident.getId(),
+                incident.getDescription(),
+                incident.getSeverity().toString(),
+                incident.getStatus().toString(),
+                incident.getTitle(),
+                1
+        );
+
 
     }
 

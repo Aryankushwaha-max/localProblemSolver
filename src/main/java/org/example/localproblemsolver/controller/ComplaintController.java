@@ -1,7 +1,7 @@
 package org.example.localproblemsolver.controller;
 
 import jakarta.validation.Valid;
-import org.example.localproblemsolver.Service.ComplaintService;
+import org.example.localproblemsolver.Service.UserComplaintService;
 import org.example.localproblemsolver.dto.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +13,11 @@ import java.util.List;
 @RequestMapping("/api/complaint")
 @CrossOrigin("*")
 public class ComplaintController {
-    private final ComplaintService complaintService;
+    private final UserComplaintService userComplaintService;
 
-        public ComplaintController(ComplaintService complaintService)
+        public ComplaintController(UserComplaintService userComplaintService)
         {
-            this.complaintService = complaintService;
+            this.userComplaintService = userComplaintService;
         }
 
         @PostMapping("/registerComplaint")
@@ -29,7 +29,7 @@ public class ComplaintController {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(
-                            complaintService.createComplaint(request)
+                            userComplaintService.createComplaint(request)
                     );
         }
 
@@ -40,7 +40,7 @@ public class ComplaintController {
 
 
         return ResponseEntity.ok(
-                complaintService.getMyComplaint(id)
+                userComplaintService.getMyComplaint(id)
         );
 
 
@@ -50,7 +50,7 @@ public class ComplaintController {
     public ResponseEntity<List<ComplaintResponse>> getMyComplaints() {
 
         return ResponseEntity.ok(
-                complaintService.getMyComplaints()
+                userComplaintService.getMyComplaints()
         );
     }
 
